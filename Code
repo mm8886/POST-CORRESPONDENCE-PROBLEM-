@@ -1,0 +1,59 @@
+import tkinter as tk
+from itertools import product
+
+def is_solution(pairs1, pairs2):
+    indices = list(range(len(pairs1))
+    all_seqs = list(product(indices, repeat=len(indices)))
+
+    for seq in all_seqs:
+        combined1 = ''.join(pairs1[i] for i in seq)
+        combined2 = ''.join(pairs2[i] for i in seq)
+        if combined1 == combined2:
+            return seq
+
+    return None
+
+def check_solution():
+    pairs1 = input_pairs1.get("1.0", tk.END).splitlines()
+    pairs2 = input_pairs2.get("1.0", tk.END).splitlines()
+
+    # Remove empty lines
+    pairs1 = [pair.strip() for pair in pairs1 if pair.strip()]
+    pairs2 = [pair.strip() for pair in pairs2 if pair.strip()]
+
+    solution = is_solution(pairs1, pairs2)
+
+    if solution:
+        solution_text.config(text=f"Solution found: {solution}")
+    else:
+        solution_text.config(text="No solution found.")
+
+# Create the main window
+window = tk.Tk()
+window.title("Post Correspondence Problem Solver")
+
+# Labels for input pairs
+input_pairs1_label = tk.Label(window, text="Enter Pairs for Sequence 1 (one per line):")
+input_pairs1_label.pack()
+
+# Text entry for input pairs1
+input_pairs1 = tk.Text(window, height=6, width=40)
+input_pairs1.pack()
+
+input_pairs2_label = tk.Label(window, text="Enter Pairs for Sequence 2 (one per line):")
+input_pairs2_label.pack()
+
+# Text entry for input pairs2
+input_pairs2 = tk.Text(window, height=6, width=40)
+input_pairs2.pack()
+
+# Button to check for a solution
+check_button = tk.Button(window, text="Check for Solution", command=check_solution)
+check_button.pack()
+
+# Text for displaying the solution or no solution message
+solution_text = tk.Label(window, text="", wraplength=300)
+solution_text.pack()
+
+# Start the GUI main loop
+window.mainloop()
